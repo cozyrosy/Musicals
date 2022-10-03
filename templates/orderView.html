@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+<section class="cart-area ptb-100">
+    <div class="container">
+        <form>
+            <div class="cart-table table-responsive">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Shipping Details</h4>
+                        <hr>
+                        <label class="mt-3"> Name:</label>
+                        <div class="border p-2 form-control">{{ order.lname }}</div>
+                        <!-- <label class="mt-3">Last Name:</label>
+                        <div class="border p-2">{{ order.lname }}</div>
+                        <label class="mt-3">Email: </label>
+                        <div class="border p-2">{{ order.email }}</div> -->
+                        <label class="mt-3">Contact: </label>
+                        <div class="border p-2">{{ order.phone }}</div>
+                        <label class="mt-3">Address:</label>
+                        <div class="border p-2">
+                            {{ order.address }},
+                            {{ order.city }},
+                            {{ order.state }},
+                            {{ order.country }}
+                        </div>
+                        
+                        <label class="mt-3">Pincode </label>
+                        <div class="border p-2">{{ order.pincode }}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Order Details</h4>
+                        <hr>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Unit Price </th>
+                                    <th scope="col">Image</th>
+                                    
+                                    <!-- <th scope="col"> Status</th> -->
+                                </tr>
+                            </thead>
+                            {% for x in prod %}
+                            <tbody>
+                                <tr>
+                                    <td class="product-thumbnail">
+                                        <a href="#">
+                                            {{ x.product.product_name }}
+                                        </a>
+                                    </td>
+        
+                                    <td class="product-name">
+                                        <a href="#">{{ x.quantity}}</a>
+                                        <!-- <ul>
+                                            
+                                            <li>Description: <span>{{ x.product.description }}</span></li>
+                                        </ul> -->
+                                    </td>
+        
+                                    <td class="product-price">
+                                        <span class="unit-amount"> {{ x.product.orignal_price }}</span>
+                                    </td>
+
+                                    <td class="product-price" >
+                                        <img class="unit-amount" src="{{ x.product.product_image.url}}" style="width:60px;height:60px;"> 
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            
+                        </table>
+                        <br>
+                        
+                        <h6>Grand Total: <span class="float-end">{{ order.total_price }}</span></h6>
+                            <p class="border p-2">Payment Mode: {{order.payment_mode}}</p>
+                            
+                            <p class="border p-2">Status : {{ order.status }}</p>
+
+                            {% if order.status == 'Cancelled' %}
+                            <td><a href="" class="btn btn-danger">Cancelled</a></td> 
+                            {% else %}
+                                {% if order.status == 'Delivered' %}
+                                <td><a href="{% url 'orderReturn' order.id %}" class="btn btn-success">Return</a></td> 
+                                {% else %}
+                                    {% if order.status == 'Returned' %}
+                                    <td><a class="btn btn-warning">Returned</a></td>
+                                    {% else %}
+                                    <td><a href="{% url 'orderCancel' order.id %}" class="btn btn-dark">Cancel</a></td> 
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                             <p class="border p-2 mt-2">Tracking Number: {{ order.tracking_no }}</p>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-buttons">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 col-sm-7 col-md-7">
+                        <a href="#" class="optional-btn">Continue Shopping</a>
+                    </div>
+
+                    <!-- <div class="col-lg-5 col-sm-5 col-md-5 text-end">
+                        <a href="#" class="default-btn">Update Cart</a>
+                    </div> -->
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+{% endblock %}

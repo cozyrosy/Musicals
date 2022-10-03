@@ -1,0 +1,218 @@
+
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<!-- Start Page Title -->
+<div class="page-title-area">
+    <div class="container">
+        <div class="page-title-content">
+            <h2>{{ products.category.category_name }} / {{ products.product_name }}</h2>
+
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li>Products Details</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Page Title -->
+
+<!-- Start Product Details Area -->
+<section class="product-details-area pt-100 pb-70">
+    <div class="container">
+        <div class="row ">
+            <div class="col-lg-5 col-md-12 product_data">
+                <div class="products-details-image" id="img-zoomer-box">
+                    <ul class="products-details-image-slides">
+                        <li><img src="{{ products.product_image.url}}" id="img-1"  alt="image"></li>
+                        <div id="img-2"></div>
+                        <li><img src="{{ products.product_image_1.url}}"  alt="image"></li>
+                        <li><img src="{{ products.product_image_2.url}}" alt="image"></li>
+                        <!-- <li><img src="{{ products.product_image.url}}" alt="image"></li>
+                        <li><img src="{{ products.product_image.url}}" alt="image"></li> -->
+                    </ul>
+
+                    <div class="slick-thumbs mt-4">
+                        <ul>
+                            <li><img src="{{ products.product_image.url}}" alt="image"></li>
+                            <li><img src="{{ products.product_image_1.url}}" alt="image"></li>
+                            <li><img src="{{ products.product_image_2.url}}" alt="image"></li>
+                            <!-- <li><img src="{{ products.product_image.url}}" alt="image"></li>
+                            <li><img src="{{ products.product_image.url}}" alt="image"></li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7 col-md-12">
+                <div class="products-details-desc">
+                    <h2>{{ products.product_name }}</h2>
+
+                    <div class="price">
+                        <!-- <span class="old-price">{{ products.selling_price }}</span> -->
+                        <span class="new-price">{{ products.orignal_price }}</span>
+                    </div>
+
+                    <!-- <div class="products-review">
+                        <div class="rating">
+                            <i class='bx bx-star'></i>
+                            <i class='bx bx-star'></i>
+                            <i class='bx bx-star'></i>
+                            <i class='bx bx-star'></i>
+                            <i class='bx bx-star'></i>
+                        </div>
+                        <a href="#" class="rating-count">3 reviews</a>
+                    </div> -->
+
+                    <ul class="products-info">
+                        <!-- <li><span>Vendor:</span> <a href="#">Lereve</a></li> -->
+                        <li><span>Availability:</span> <a href="#">In stock : {{ products.quantity }}</a></li>
+                        <!-- <li><span>Products Type:</span> <a href="#">T-Shirt</a></li> -->
+                    </ul>
+
+                    <div class="tab products-details-tab ">
+                        <ul class="tabs mt-5">
+                            <li><a href="#">
+                                    <div class="dot"></div> Description
+                                </a></li>
+
+
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tabs-item">
+                                <div class="products-details-tab-content">
+                                    <p>{{ products.description }}</p>
+                                    <a href="{% url 'add_cart' products.id %}"
+                                        class="default-btn products-add-to-cart mt-5 "><i class="fas fa-cart-plus"></i> Add
+                                        to Cart</a>
+                                </div>
+                            </div>
+                        </div><br><br>
+                    </div>
+<!-- 
+                    <div class="wishlist-compare-btn">
+                        <a href="#" class="optional-btn"><i class='bx bx-heart'></i> Add to Wishlist</a>
+                        <a href="#" class="optional-btn"><i class='bx bx-refresh'></i> Add to Compare</a>
+                    </div><br> -->
+
+
+
+
+
+                    <!-- <div class="buy-checkbox-btn">
+                        <div class="item">
+                            <input class="inp-cbx" id="cbx" type="checkbox">
+                            <label class="cbx" for="cbx">
+                                <span>
+                                    <svg width="12px" height="10px" viewbox="0 0 12 10">
+                                        <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                                    </svg>
+                                </span>
+                                <span>I agree with the terms and conditions</span>
+                            </label>
+                        </div>
+
+                        <div class="item">
+                            <a href="#" class="default-btn">Buy it now!</a>
+                            <br><br>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+<br><br>
+
+    </div>
+    </div>
+
+
+    <style>
+        body {
+            height: 450px;
+            overflow: scroll;
+            font-family: Arial, sans-serif;
+            color: #333;
+            background: #f4f4f4;
+          }
+          #img-zoomer-box {
+            width: 500px;
+            height: auto;
+            position: relative;
+            margin-top: 10px;
+          }
+          
+          #img-1 {
+            width: 100%;
+            height: auto;
+          }
+          
+          #img-zoomer-box:hover, #img-zoomer-box:active {
+            cursor: zoom-in;
+            display: block;
+          }
+          
+          #img-zoomer-box:hover #img-2, #img-zoomer-box:active #img-2 {
+            opacity: 1;
+          }
+          #img-2 {
+            width: 340px;
+            height: 340px;
+            background: url('{{ products.product_image.url}}') no-repeat #FFF;
+            box-shadow: 0 5px 10px -2px rgba(0,0,0,0.3);
+            pointer-events: none;
+            position: absolute;
+            opacity: 0;
+            border: 4px solid whitesmoke;
+            z-index: 99;
+            border-radius: 100%;
+            display: block;
+            transition: opacity .2s;
+          }
+    </style>
+    <!-- <div>Roll over image to zoom in</div>    
+    <div id="img-zoomer-box">
+      <img src="https://bit.ly/2mgDw0y" id="img-1" />
+      <div id="img-2"></div>
+    </div> -->
+<script>
+    let zoomer = function (){
+        document.querySelector('#img-zoomer-box')
+          .addEventListener('mousemove', function(e) {
+      
+          let original = document.querySelector('#img-1'),
+              magnified = document.querySelector('#img-2'),
+              style = magnified.style,
+              x = e.pageX - this.offsetLeft,
+              y = e.pageY - this.offsetTop,
+              imgWidth = original.offsetWidth,
+              imgHeight = original.offsetHeight,
+              xperc = ((x/imgWidth) * 100),
+              yperc = ((y/imgHeight) * 100);
+      
+          //lets user scroll past right edge of image
+          if(x > (.01 * imgWidth)) {
+            xperc += (.15 * xperc);
+          };
+      
+          //lets user scroll past bottom edge of image
+          if(y >= (.01 * imgHeight)) {
+            yperc += (.15 * yperc);
+          };
+      
+          style.backgroundPositionX = (xperc - 9) + '%';
+          style.backgroundPositionY = (yperc - 9) + '%';
+      
+          style.left = (x - 180) + 'px';
+          style.top = (y - 180) + 'px';
+      
+        }, false);
+      }();
+</script>
+
+
+    {% endblock %}

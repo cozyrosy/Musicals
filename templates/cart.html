@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<!-- Start Page Title -->
+<div class="page-title-area">
+    <div class="container">
+        <div class="page-title-content">
+            <h2>Cart</h2>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li>Cart</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Page Title -->
+
+<!-- Start Cart Area -->
+<section class="cart-area ptb-100">
+    <div class="container">  
+        <div class="row" id="cat_htmx">
+    
+            {% include "cart_htmx.html" %}
+        </div>
+    </div>
+</section>
+<!-- End Cart Area -->
+
+<script>
+    document.body.addEventListener('htmx:configRequest', (evt)=> {
+       // evt.detail.parameters['auth_token'] = getAuthToken();  add a new parameter into the request
+         evt.detail.headers['X-CSRFToken'] = '{{csrf_token}}'; // add a new header into the request
+    });
+</script>
+
+<!--Cart section end-->
+
+{% endblock %}
+
+
+<!-- {% block scripts %} -->
+
+<!-- <script>
+    $('.changeQuantity').click(function (e) {
+        e.preventDefault();
+
+        var product_id = $(this).closest('.product_data').find('.prod_id').val();
+        var product_qty = $(this).closest('.product_data').find('.qty-input').val();
+        var token = $('input[name=csrfmiddlewaretoken]').val();
+        $.ajax({
+            method: "POST",
+            url: "update-cart",
+            data: {
+                'product_id':product_id,
+                'product_qty':product_qty,
+                csrfmiddlewaretoken:token
+            },
+            success: function(response) {
+                alertify.success(response.status)
+            }
+        });
+    });
+
+</script> -->
+
+
+
+<!-- {% endblock scripts %} -->

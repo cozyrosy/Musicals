@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<!-- Start Page Title -->
+<div class="page-title-area">
+    <div class="container">
+        <div class="page-title-content">
+            <h2>Add Address</h2>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li>Checkout</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<div class="container justify-centre">
+    <div class="main-body ">
+        <div class="col-md-6 justify-centre">
+            {% if msg %}
+            <p class="text-success">{{ msg }}</p>
+            {% endif %}
+            <table class="table table-bordered">
+                <h2>Add Address</h2>
+    
+                <form action="" method="POST" class="sign-upform">
+                    {% csrf_token %}
+                    {% for frm in form %}
+                    {{ frm.label_tag }}
+                    {{ frm }}
+                    {% endfor %}
+                    <tr>
+                        <td colspan="2">
+                            <button type="submit" class="default-btn">Save</a>
+                        </td>
+                    </tr>
+                    
+                </form>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

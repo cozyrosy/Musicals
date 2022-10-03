@@ -1,0 +1,657 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+
+<!-- Start Search Overlay -->
+<div class="search-overlay">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="search-overlay-layer"></div>
+            <div class="search-overlay-layer"></div>
+            <div class="search-overlay-layer"></div>
+
+            <div class="search-overlay-close">
+                <span class="search-overlay-close-line"></span>
+                <span class="search-overlay-close-line"></span>
+            </div>
+
+            <div class="search-overlay-form">
+                <form>
+                    <input type="text" class="input-search" placeholder="Search here...">
+                    <button type="submit"><i class='bx bx-search-alt'></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Search Overlay -->
+
+<!-- Start Main Banner Area -->
+<div class="home-slides-two owl-carousel owl-theme">
+    <div class="main-banner" style="background-image: url('https://images.pexels.com/photos/5070066/pexels-photo-5070066.jpeg?cs=srgb&dl=pexels-nataliya-vaitkevich-5070066.jpg&fm=jpg') ;">
+        <div class="d-table">
+            <div class="d-table-cell">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="banner-content text-white">
+                                <div class="line"></div>
+                                <span class="sub-title">Piano's Collection</span>
+                                <h1>New Inspiration 2022</h1>
+                                <p>Click here to shop in your local currency. We ship over 2 million products around the world!</p>
+                                <div class="btn-box">
+                                    <a href="products-right-sidebar-2.html" class="default-btn">Shop Grand Piano</a>
+                                    <a href="products-right-sidebar-3.html" class="optional-btn">Shop Synthesizers</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-banner" style="background-image: url('https://images.pexels.com/photos/8358482/pexels-photo-8358482.jpeg?cs=srgb&dl=pexels-%D0%B0%D0%BB%D0%B5%D0%BA%D0%BA%D0%B5-%D0%B1%D0%BB%D0%B0%D0%B6%D0%B8%D0%BD-8358482.jpg&fm=jpg');">
+        <div class="d-table">
+            <div class="d-table-cell">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="banner-content text-white">
+                                <div class="line"></div>
+                                <span class="sub-title">Guitars Collection</span>
+                                <h1>New Collection 2022</h1>
+                                <p>Click here to shop in your local currency. We ship over 2 million products around the world!</p>
+                                <div class="btn-box">
+                                    <a href="products-right-sidebar-2.html" class="default-btn">Shop Acoustic</a>
+                                    <a href="products-right-sidebar-3.html" class="optional-btn">Shop Electric</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-banner" style="background-image: url('https://images.pexels.com/photos/8512613/pexels-photo-8512613.jpeg?cs=srgb&dl=pexels-big-bag-films-8512613.jpg&fm=jpg');">
+        <div class="d-table">
+            <div class="d-table-cell">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="banner-content text-white">
+                                <div class="line"></div>
+                                <span class="sub-title">Drums Collection</span>
+                                <h1>New Collection 2022</h1>
+                                <p>Click here to shop in your local currency. We ship over 2 million products around the world!</p>
+                                <div class="btn-box">
+                                    <a href="products-right-sidebar-2.html" class="default-btn">Shop Hand Drums</a>
+                                    <a href="products-right-sidebar-3.html" class="optional-btn">Shop African Drums</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Main Banner Area -->
+
+<!-- Start Categories Banner Area -->
+<section class="categories-banner-area pt-100 pb-70">
+    <div class="container-fluid">
+        <div class="section-title">
+            <span class="sub-title">See Our Various Categories</span>
+            <h2>Categories</h2>
+        </div>
+        <div class="row">
+            {% for cat in category %}
+            <div class="col-lg-3 col-md-3 col-sm-6">
+                <div class="single-categories-box">
+
+                    <img src='{{ cat.cat_image.url }} ' alt="image">
+
+                    <div class="content text-white h2">
+                        <span>{{cat.category_name}}</span>
+                        {% if cat.cat_offer %}
+                            <h3>{{ cat.cat_offer.discount_amnt }} %</h3>
+                        {% endif %}
+                        <a href="{% url 'collectionView' cat.slug %}" class="default-btn">Discover Now</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- End Categories Banner Area -->
+
+<!-- Start Products Area -->
+<section class="products-area pb-70">
+    <div class="container">
+        <div class="section-title">
+            <span class="sub-title">See Our Collection</span>
+            <h2>Featured Products</h2>
+        </div>
+
+        <div class="row">
+            {% for pdt in product %}
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-products-box">
+                    <div class="products-image">
+                        <a href="products-type-1.html">
+                            <img src="{{ pdt.product_image.url }}" class="main-image" alt="image">
+                            <img src="{{ pdt.product_image_1.url  }}" class="hover-image" alt="image">
+                        </a>
+
+                        <!-- <div class="products-button">
+                            <ul>
+                                <li>
+                                    <div class="wishlist-btn">
+                                        <a href="#">
+                                            <i class='bx bx-heart'></i>
+                                            <span class="tooltip-label">Add to Wishlist</span>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="compare-btn">
+                                        <a href="#">
+                                            <i class='bx bx-refresh'></i>
+                                            <span class="tooltip-label">Compare</span>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="quick-view-btn">
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#productsQuickView">
+                                            <i class='bx bx-search-alt'></i>
+                                            <span class="tooltip-label">Quick View</span>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div> -->
+
+                        <div class="new-tag">{{ pdt.tag }}</div>
+                    </div>
+
+                    <div class="products-content">
+                        <h3><a href="products-type-1.html">{{ pdt.product_name }}</a></h3>
+                        <div class="price">
+                            
+                            {% if not pdt.discount_price < 1 %}
+                                <span class="old-price">{{ pdt.orignal_price }}</span>
+                                <span class="new-price">{{ pdt.discount_price }}</span>
+                            {% else %}
+                                <span class="new-price">{{ pdt.orignal_price }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="star-rating">
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                        </div>
+                        <a href="{% url 'add_cart' pdt.id %}" class="add-to-cart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- End Products Area -->
+
+<!-- Start Offer Area -->
+<!-- <section class="offer-area bg-image1 ptb-100 jarallax" data-jarallax='{"speed": 0.3}'>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-5 col-md-6">
+                <div class="offer-content">
+                    <span class="sub-title">Limited Time Offer!</span>
+                    <h2>-40% OFF</h2>
+                    <p>Get The Best Deals Now</p>
+                    <a href="products-one-row.html" class="default-btn">Discover Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->
+<!-- End Offer Area -->
+
+<!-- Start Products Area
+
+End Products Area -->
+
+<!-- Start Facility Area -->
+<section class="facility-area pb-70">
+    <div class="container">
+        <div class="facility-slides owl-carousel owl-theme">
+            <div class="single-facility-box">
+                <div class="icon">
+                    <i class='flaticon-tracking'></i>
+                </div>
+                <h3>Free Shipping Worldwide</h3>
+            </div>
+
+            <div class="single-facility-box">
+                <div class="icon">
+                    <i class='flaticon-return'></i>
+                </div>
+                <h3>Easy Return Policy</h3>
+            </div>
+
+            <div class="single-facility-box">
+                <div class="icon">
+                    <i class='flaticon-shuffle'></i>
+                </div>
+                <h3>7 Day Exchange Policy</h3>
+            </div>
+
+            <div class="single-facility-box">
+                <div class="icon">
+                    <i class='flaticon-sale'></i>
+                </div>
+                <h3>Weekend Discount Coupon</h3>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Facility Area -->
+
+<!-- Start Products Area -->
+<section class="products-area pb-70">
+    <div class="container">
+        <div class="section-title">
+            <span class="sub-title">See Our Collection</span>
+            <h2>Our New Products</h2>
+        </div>
+
+        <div class="row">
+            {% for newpdt in new %}
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-products-box">
+                    <div class="products-image">
+                        <a href="products-type-1.html">
+                            <img src="{{ newpdt.product_image.url }}" class="main-image" alt="image">
+                            <img src="{{ newpdt.product_image_1.url }}" class="hover-image" alt="image">
+                        </a>
+
+                        <div class="products-button">
+                            <ul>
+                                <li>
+                                    <div class="wishlist-btn">
+                                        <a href="#">
+                                            <i class='bx bx-heart'></i>
+                                            <span class="tooltip-label">Add to Wishlist</span>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="compare-btn">
+                                        <a href="#">
+                                            <i class='bx bx-refresh'></i>
+                                            <span class="tooltip-label">Compare</span>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="quick-view-btn">
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#productsQuickView">
+                                            <i class='bx bx-search-alt'></i>
+                                            <span class="tooltip-label">Quick View</span>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="sale-tag">{{ newpdt.tag}}</div>
+                    </div>
+
+                    <div class="products-content">
+                        <h3><a href="products-type-1.html">{{ newpdt.product_name}}</a></h3>
+                        <div class="price">
+                            
+
+                            {% if  newpdt.discount_price > 1 %}
+                                <span class="old-price">{{ newpdt.orignal_price }}</span>
+                                <span class="new-price">{{ newpdt.discount_price }}</span>
+                            {% else %}
+                                <span class="new-price">{{ newpdt.orignal_price }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="star-rating">
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                            <i class='bx bxs-star'></i>
+                        </div>
+                        <a href="{% url 'add_cart' newpdt.id %}" class="add-to-cart">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- </div> -->
+</section>
+<!-- End Products Area -->
+
+
+
+<!-- Start Partner Area -->
+<!-- End Partner Area -->
+
+
+
+<!-- Start Blog Area -->
+<!-- End Blog Area -->
+
+
+
+<!-- Start Instagram Area -->
+<!-- End Instagram Area -->
+
+
+
+<!-- Start Sidebar Modal -->
+<!-- End Sidebar Modal -->
+
+
+
+<!-- Start QuickView Modal Area -->
+<div class="modal fade productsQuickView" id="productsQuickView" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"><i class='bx bx-x'></i></span>
+            </button>
+
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6">
+                    <div class="products-image">
+                        <img src="{% static 'img/quick-view-img.jpg' %}" alt="image">
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6">
+                    <div class="products-content">
+                        <h3><a href="#">Long Sleeve Leopard T-Shirt</a></h3>
+
+                        <div class="price">
+                            <span class="old-price">$210.00</span>
+                            <span class="new-price">$200.00</span>
+                        </div>
+
+                        <div class="products-review">
+                            <div class="rating">
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                                <i class='bx bxs-star'></i>
+                            </div>
+                            <a href="#" class="rating-count">3 reviews</a>
+                        </div>
+
+                        <ul class="products-info">
+                            <li><span>Vendor:</span> <a href="#">Lereve</a></li>
+                            <li><span>Availability:</span> <a href="#">In stock (7 items)</a></li>
+                            <li><span>Products Type:</span> <a href="#">T-Shirt</a></li>
+                        </ul>
+
+                        <div class="products-color-switch">
+                            <h4>Color:</h4>
+
+                            <ul>
+                                <li><a href="#" data-bs-toggle="tooltip" data-placement="top" title="Black"
+                                        class="color-black"></a></li>
+                                <li><a href="#" data-bs-toggle="tooltip" data-placement="top" title="White"
+                                        class="color-white"></a></li>
+                                <li><a href="#" data-bs-toggle="tooltip" data-placement="top" title="Green"
+                                        class="color-green"></a></li>
+                                <li><a href="#" data-bs-toggle="tooltip" data-placement="top" title="Yellow Green"
+                                        class="color-yellowgreen"></a></li>
+                                <li><a href="#" data-bs-toggle="tooltip" data-placement="top" title="Teal"
+                                        class="color-teal"></a></li>
+                            </ul>
+                        </div>
+
+                        <div class="products-size-wrapper">
+                            <h4>Size:</h4>
+
+                            <ul>
+                                <li><a href="#">XS</a></li>
+                                <li class="active"><a href="#">S</a></li>
+                                <li><a href="#">M</a></li>
+                                <li><a href="#">XL</a></li>
+                                <li><a href="#">XXL</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="products-add-to-cart">
+                            <div class="input-counter">
+                                <span class="minus-btn"><i class='bx bx-minus'></i></span>
+                                <input type="text" value="1">
+                                <span class="plus-btn"><i class='bx bx-plus'></i></span>
+                            </div>
+
+                            <button type="submit" class="default-btn">Add to Cart</button>
+                        </div>
+
+                        <a href="#" class="view-full-info">View Full Info</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End QuickView Modal Area -->
+
+<!-- Start Shopping Cart Modal -->
+<div class="modal right fade shoppingCartModal" id="shoppingCartModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"><i class='bx bx-x'></i></span>
+            </button>
+
+            <div class="modal-body">
+                <h3>My Cart (3)</h3>
+
+                <div class="products-cart-content">
+                    <div class="products-cart">
+                        <div class="products-image">
+                            <a href="#"><img src="{% static 'img/products/img1.jpg' %}" alt="image"></a>
+                        </div>
+
+                        <div class="products-content">
+                            <h3><a href="#">Long Sleeve Leopard T-Shirt</a></h3>
+                            <span>Blue / XS</span>
+                            <div class="products-price">
+                                <span>1</span>
+                                <span>x</span>
+                                <span class="price">$250.00</span>
+                            </div>
+                            <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
+                        </div>
+                    </div>
+
+                    <div class="products-cart">
+                        <div class="products-image">
+                            <a href="#"><img src="{% static 'img/products/img2.jpg' %}" alt="image"></a>
+                        </div>
+
+                        <div class="products-content">
+                            <h3><a href="#">Causal V-Neck Soft Raglan</a></h3>
+                            <span>Blue / XS</span>
+                            <div class="products-price">
+                                <span>1</span>
+                                <span>x</span>
+                                <span class="price">$200.00</span>
+                            </div>
+                            <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
+                        </div>
+                    </div>
+
+                    <div class="products-cart">
+                        <div class="products-image">
+                            <a href="#"><img src="{% static 'img/products/img3.jpg' %}" alt="image"></a>
+                        </div>
+
+                        <div class="products-content">
+                            <h3><a href="#">Hanes Men's Pullover</a></h3>
+                            <span>Blue / XS</span>
+                            <div class="products-price">
+                                <span>1</span>
+                                <span>x</span>
+                                <span class="price">$200.00</span>
+                            </div>
+                            <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="products-cart-subtotal">
+                    <span>Subtotal</span>
+
+                    <span class="subtotal">$650.00</span>
+                </div>
+
+                <div class="products-cart-btn">
+                    <a href="#" class="default-btn">Proceed to Checkout</a>
+                    <a href="#" class="optional-btn">View Shopping Cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Shopping Cart Modal -->
+
+<!-- Start Wishlist Modal -->
+<div class="modal right fade shoppingWishlistModal" id="shoppingWishlistModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"><i class='bx bx-x'></i></span>
+            </button>
+
+            <div class="modal-body">
+                <h3>My Wish List (3)</h3>
+
+                <div class="products-cart-content">
+                    <div class="products-cart">
+                        <div class="products-image">
+                            <a href="#"><img src="{% static 'img/products/img1.jpg' %}" alt="image"></a>
+                        </div>
+
+                        <div class="products-content">
+                            <h3><a href="#">Long Sleeve Leopard T-Shirt</a></h3>
+                            <span>Blue / XS</span>
+                            <div class="products-price">
+                                <span>1</span>
+                                <span>x</span>
+                                <span class="price">$250.00</span>
+                            </div>
+                            <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
+                        </div>
+                    </div>
+
+                    <div class="products-cart">
+                        <div class="products-image">
+                            <a href="#"><img src="{% static 'img/products/img2.jpg' %}" alt="image"></a>
+                        </div>
+
+                        <div class="products-content">
+                            <h3><a href="#">Causal V-Neck Soft Raglan</a></h3>
+                            <span>Blue / XS</span>
+                            <div class="products-price">
+                                <span>1</span>
+                                <span>x</span>
+                                <span class="price">$200.00</span>
+                            </div>
+                            <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
+                        </div>
+                    </div>
+
+                    <div class="products-cart">
+                        <div class="products-image">
+                            <a href="#"><img src="{% static 'img/products/img3.jpg' %}" alt="image"></a>
+                        </div>
+
+                        <div class="products-content">
+                            <h3><a href="#">Hanes Men's Pullover</a></h3>
+                            <span>Blue / XS</span>
+                            <div class="products-price">
+                                <span>1</span>
+                                <span>x</span>
+                                <span class="price">$200.00</span>
+                            </div>
+                            <a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="products-cart-btn">
+                    <a href="#" class="optional-btn">View Shopping Cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Wishlist Modal -->
+
+
+
+<!-- Start Size Guide Modal Area -->
+<!-- End Size Guide Modal Area -->
+
+
+
+<!-- Start Shipping Modal Area -->
+<!-- End Shipping Modal Area -->
+
+
+
+<!-- Start Products Filter Modal Area -->
+<!-- End Products Filter Modal Area -->
+
+
+
+<div class="go-top"><i class='bx bx-up-arrow-alt'></i></div>
+
+<!-- Links of JS files -->
+<!-- <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'js/magnific-popup.min.js' %}"></script>
+<script src="{% static 'js/parallax.min.js' %}"></script>
+<script src="{% static 'js/rangeSlider.min.js' %}"></script>
+<script src="{% static 'js/nice-select.min.js' %}"></script>
+<script src="{% static 'js/meanmenu.min.js' %}"></script>
+<script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'js/slick.min.js' %}"></script>
+<script src="{% static 'js/sticky-sidebar.min.js' %}"></script>
+<script src="{% static 'js/wow.min.js' %}"></script>
+<script src="{% static 'js/form-validator.min.js' %}"></script>
+<script src="{% static 'js/contact-form-script.js' %}"></script>
+<script src="{% static 'js/ajaxchimp.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html> -->
+
+{% endblock %}

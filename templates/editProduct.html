@@ -1,0 +1,100 @@
+{% extends 'adminBase.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="fw-bold">Edit Product</h2>
+                    </div>
+                    <div class="card-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="" class="form-label">Name</label>
+                                <input type="text" Required name="name" value="{{ prod.product_name}}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="" >Category</label>
+                                <div>
+                                    <select class="form-control form-custom mb-3" name="category">
+                                        {% for category in cat %}
+                                        <option value="{{category.id}}">{{category.category_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <!-- <input type="text" Required name="category" class="form-control"> -->
+                            </div>
+                            <div class="mb-3">
+                                {% if prod.product_image %}
+                                    <img src="{{ prod.product_image.url }}" alt="" style="width:60px;height:60px;">
+                                {% endif %}
+                                <label for="" class="form-label">Image</label>
+                                <input type="file" Required name="image" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                {% if prod.product_image %}
+                                    <img src="{{ prod.product_image1.url }}" alt="" style="width:60px;height:60px;">
+                                {% endif %}
+                                <label for="" class="form-label">Image 1</label>
+                                <input type="file" Required name="image1" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                {% if prod.product_image %}
+                                    <img src="{{ prod.product_image2.url }}" alt="" style="width:60px;height:60px;">
+                                {% endif %}
+                                <label for="" class="form-label">Image 2</label>
+                                <input type="file" Required name="image2" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Description</label>
+                                <input type="text" Required name="description" value="{{ prod.description}}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Quantity</label>
+                                <input type="text" Required name="quantity" value="{{ prod.quantity}}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Price</label>
+                                <input type="text" Required name="price" value="{{ prod.price}}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="" >Filter Price</label>
+                                <div>
+                                    <select class="form-control form-custom mb-3" name="filter_price">
+                                        {% for filter_price in fp %}
+                                        <option value="{{filter_price.id}}">{{filter_price.price}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <!-- <input type="text" Required name="category" class="form-control"> -->
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Tag</label>
+                                <input type="text" Required name="tag" value="{{ prod.tag}}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Slug</label>
+                                <input type="text" Required name="slug" value="{{ prod.slug}}" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %} Register {%endblock title%}
+
+{% block content %}
+  <!-- Start Page Title -->
+  <div class="page-title-area">
+    <div class="container">
+        <div class="page-title-content">
+            <h2>My Account</h2>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li>Signup</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Page Title -->
+
+<!-- Start SignUP Area -->
+<section class="signup-area ptb-100">
+    <div class="container">
+        <div class="signup-content">
+            <h2>Create an Account</h2>
+            <form action="{% url 'register' %}" method = "POST" class="signup-form ">
+                {% csrf_token %}
+                {% for msg in messages %}
+                    <p class="alert alert-danger" role="alert">{{ msg }}</p>
+                {% endfor %}
+                {% for fm in form %}
+                    {{fm.label_tag}}
+                    {{fm}}<br>
+                    <small class="text-danger">{{fm.errors|striptags}}</small>
+                {% endfor%}
+
+                <button type="submit" class="default-btn mt-4">Signup</a>
+
+                <!-- <a href="index.html" class="return-store">or Return to Store</a> -->
+            </form>
+        </div>
+    </div>
+</section>
+<!-- End SignUP Area -->
+{% endblock %}

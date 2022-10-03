@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<!-- Start Page Title -->
+<div class="page-title-area">
+    <div class="container">
+        <div class="page-title-content">
+            <h2>Checkout</h2>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li>Checkout</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Page Title -->
+
+<!-- Start Checkout Area -->
+<section class="checkout-area ptb-100">
+    <div class="container">
+        <!-- <div class="user-actions">
+            <i class='bx bx-log-in'></i>
+            <span>Returning customer? <a href="login.html">Click here to login</a></span>
+        </div> -->
+
+        <form action="{% url 'paymentMethod' %}" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <div class="billing-details">
+                        <h3 class="title">Billing Details</h3>
+
+                        <div class="row">
+                            {% if not address %}
+                             <a href="{% url 'addAddress' %}" class="btn btn-primary"
+                                    style="width: 30%;">Add Address</a>
+                            {% else %}
+
+                                {% for add in address %}
+                                <div class="col-md">
+                                    <!-- <div class="card {% if add.status %} border-secondary {% endif %} address{{ add.id }} address"> -->
+
+                                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="flush-headingOne">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+                                                    aria-expanded="false" aria-controls="flush-collapseOne">
+                                                    <input type="radio" name="addid" value="{{add.id}}" checked>
+                                                    {{ add.lname}}
+                                                </button >
+                                            </h2>
+                                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                                aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                                <div class="accordion-body">
+                                                    <label name="lname" value="{{ add.lname }}" for="">{{ add.lname}}</label><br> 
+                                                    <input type="text" name="lname" value="{{ add.lname }}" hidden>
+
+                                                    <label name="name" value="{{ add.address }}" for=""> {{add.address }}</label><br>
+                                                    <input type="text" name="address" value="{{ add.address}}" hidden>
+
+                                                    <label name="phone" value="{{ add.phone}}" for="">{{add.phone}}</label><br>
+                                                    <input type="text" name="phone" value="{{ add.phone}}" hidden>
+
+                                                    <label name="country" value="{{ add.country}}" for="">{{add.country}}</label><br>
+                                                    <input type="text" name="country" value="{{ add.country}}" hidden>
+
+                                                    <label name="state" value="{{ add.state}}" for="">{{add.state}}</label><br>
+                                                    <input type="text" name="state" value="{{ add.state}}" hidden>
+
+                                                    <label name="city" value=" {{ add.city}}" for=""> {{add.city}}</label><br>
+                                                    <input type="text" name="city" value=" {{ add.city}}" hidden>
+
+                                                    <label name="pincode" value="{{ add.pincode}}" for="">{{add.pincode}}</label><br>
+                                                    <input type="text" name="pincode" value="{{ add.pincode}}" hidden>
+                                                </div>
+                                            </div>
+                                        </div> <br><br>
+
+                                        <br><br>
+                                    </div>
+
+                                </div>
+                                {% endfor %}
+                            <div>
+                                <a href="{% url 'addAddress' %}" class="btn btn-primary"
+                                    style="width: 30%;">Add Address</a>
+                                <button type="submit" class="btn btn-danger mt-4"
+                                    style="width: 100%; height: 60%;">Make Payment</button>
+                                    
+                            </div>
+                            <!-- {% endif %} -->
+
+
+                            <!-- <input type="hidden" value="COD" name="payment_mode">
+                            
+                            <div class="payment-box float-end   ">
+                                <div class="cart-totals">
+                                    <ul>
+                                        <li>Tax <span>{{ tax }}</span></li>
+                                        <li>Grand Total <span>{{ grand_total }}</span></li>
+                                 
+                                    <a href="{% url 'paymentMethod' %}" class="default-btn">Place Order</a>
+                                <li><button type="submit" class="btn btn-success mt-2" style="width: 100%;" name="cod">Cash On Delivery </button></li>
+                                
+                                <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                                <script>
+                                    var options = {
+                                        "key": "{{ api_key }}", // Enter the Key ID generated from the Dashboard
+                                        "name": "Godwin Rosh",
+                                        "amount": "{{amount}}" ,
+                                        "description": "Test Transaction",
+                                        "image": "{% static 'img/white.png' %}",
+                                        "order_id": "{{ order_id }}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                                        "handler": function (response) {
+                                            alert(response.razorpay_payment_id);
+                                            //alert(response.razorpay_order_id);
+                                            //alert(response.razorpay_signature)
+                                        },
+                                        "prefill": {
+                                            "name": "Gaurav Kumar",
+                                            "email": "gaurav.kumar@example.com",
+                                            "contact": "9999999999"
+                                        },
+                                        "notes": {
+                                            "address": "Razorpay Corporate Office"
+                                        },
+                                        "theme": {
+                                            "color": "#8a0f55"
+                                        }
+                                    };
+                                    var rzp1 = new Razorpay(options);
+                                    rzp1.on('payment.failed', function (response) {
+                                        alert(response.error.code);
+                                        alert(response.error.description);
+                                        alert(response.error.source);
+                                        alert(response.error.step);
+                                        alert(response.error.reason);
+                                        alert(response.error.metadata.order_id);
+                                        alert(response.error.metadata.payment_id);
+                                    });
+                                    document.getElementById('rzp-button1').onclick = function (e) {
+                                        rzp1.open();
+                                        e.preventDefault();
+                                    }
+                                </script>
+                                
+                                <li><div id="paypal-button-container" class="mt-2"></div></li>
+                            </ul> 
+                            
+                                </div>
+                                <button type="button" class="default-btn ">PayPal | Order</button>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-12">
+                    <div class="order-details">
+                        <h3 class="title">Your Order</h3>
+
+                        <div class="order-table table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Product</th>
+                                        <th scope="col">Name</th>
+                                        <!-- <th scope="col">Total Price</th> -->
+                                        <th scope="col">Quantity</th>
+                                        <!-- <th scope="col">Total</th> -->
+                                    </tr>
+                                </thead>
+
+                                {% for cart_item in cart_items %}
+                                <tbody>
+                                    <tr>
+                                        <td class="product-thumbnail">
+                                            <a href="#">
+                                                <img src="{{ cart_item.product.product_image.url}}" alt="item" style="height: 70px;">
+                                            </a>
+                                        </td>
+
+                                        <td class="product-name">
+                                            <a href="#">{{ cart_item.product.product_name}}</a>
+                                            <!-- <ul>
+
+                                                <li>Description:<br> <span>{{ cart_item.product.description }}</span>
+                                                </li>
+                                            </ul> -->
+                                        </td>
+
+                                        <!-- <td class="product-price">
+                                            <span class="unit-amount">{{ sub_total   }}</span>
+                                        </td> -->
+
+                                        <td class="product-quantity">
+
+
+                                            <label for="">{{ cart_item.quantity }}</label>
+
+
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+</section>
+<!-- End Checkout Area -->
+
+{% endblock %}
+
+{% block scripts %}
+
+<script
+    src="https://www.paypal.com/sdk/js?client-id=ARhm5sPeu5kMAs1MuDyh7bPuWbTP4IMjiC58ktrc_iI_VzgoDSVqn6VkaB-4Ntq6gukNY7KtT07zH695&currency=USD&intent=capture&enable-funding=venmo"
+    data-sdk-integration-source="integrationbuilder"></script>
+<script>
+    paypal.Buttons({
+        // Sets up the transaction when a payment button is clicked
+        createOrder: (data, actions) => {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '0.01', //'{{ grand_total }}' // Can also reference a variable or function
+                    }
+                }]
+            });
+        },
+        // Finalize the transaction after payer approval
+        onApprove: (data, actions) => {
+            return actions.order.capture().then(function (orderData) {
+                
+                // Successful capture! For dev/demo purposes:
+                //console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                //const transaction = orderData.purchase_units[0].payments.captures[0];
+                //alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+                // When ready to go live, remove the alert and show a success message within this page. For example:
+                // const element = document.getElementById('paypal-button-container');
+                // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                // Or go to another URL:  actions.redirect('thank_you.html');
+            });
+        }
+    }).render('#paypal-button-container');
+</script>
+
+
+<!-- <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<!-- <script>
+
+
+    $(document).ready(function (){
+    
+        $('#payWithRazorpay').click(function (e) {
+            console.log('asdfgjhj,bjgiughhbvukgihiouihihijnijniiigjvukfmjgli')
+            
+            var fname = $("[name='fname']").val();
+            console.log(fname);
+            var lname = $("[name='lname']").val();
+            var phone = $("[name='phone']").val();
+            var email = $("[name='email']").val();
+            var address = $("[name='address']").val();
+            var country = $("[name='country']").val();
+            var city = $("[name='city']").val();
+            var pincode = $("[name='pincode']").val();
+            
+            
+            if (fname == "" || lname == "" || phone == "" || email == "" || address == "" || country == "" || city == "" || pincode == "")
+            {
+                e.preventDefault();
+                
+                swal("Alert!", "All fields are mandatory!", "error");
+                return false;
+            }else
+            {
+                $.ajax({
+                    
+                    method: "GET",
+                    url :"/orders/proceed-to-pay",                 
+                    success: function (response) {
+                        console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+                        console.log(response);
+                    }
+                })
+                var options = {
+                    "key": "rzp_test_NvY0m3ZODRPZcm", // Enter the Key ID generated from the Dashboard
+                    "amount":  1*100,//response.total_price, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                    "currency": "INR",
+                    "name": "Rose Grace Jacob",
+                    "description": "Thank You fo buying from us",
+                    "image": "https://example.com/your_logo",
+                    "order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                    "handler": function (response){
+                        alert(response.razorpay_payment_id);
+                        //alert(response.razorpay_order_id);
+                        //alert(response.razorpay_signature)
+                    },
+                    "prefill": {
+                        "name": fname+" "+lname,
+                        "email": email,
+                        "contact": phone
+                    },
+                    "notes": {
+                        "address": "Razorpay Corporate Office"
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+                };
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
+            }
+    
+           
+        });
+    
+    });
+
+</script> -->
+
+
+
+{% endblock scripts %}

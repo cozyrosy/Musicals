@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<!-- Start Page Title -->
+<div class="page-title-area">
+    <div class="container">
+        <div class="page-title-content">
+            <h2><span>{{ user.username }} </span>Edit Profile</h2>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li>Edit Profile</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Page Title -->
+
+
+
+<div class="container">
+    <div class="col-md-6 ">
+        {% if msg %}
+        <p class="text-success">{{ msg }}</p>
+        {% endif %}
+        <table class="table table-bordered">
+           
+
+            <form action="" method="POST" class="sign-upform">
+                {% csrf_token %}
+                {{ form.as_table}}
+                <tr>
+                    <td colspan="2">
+                        <button type="submit" class="default-btn">Save</a>
+                    </td>
+                </tr>
+
+            </form>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

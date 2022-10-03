@@ -1,0 +1,92 @@
+
+{% extends 'adminBase.html' %}
+{% load static %}
+
+
+{% block content %}
+<div id="content" class="main-content">
+    <div class="container">
+      <div class="page-header">
+        <div class="page-title">
+          <h2>Category Offer</h2>
+        </div>
+  
+      </div>
+      <div>
+        <a href="{% url 'addcategoryOffer' %}">
+          <button type="button" class="btn btn-secondary mb-3 ">Add Offer</button>
+        </a>
+      </div>
+      <table class="table table-hover" id='zero-config'>
+        <thead>
+          <tr>
+            <th scope="col">No </th>
+            <th scope="col">Category</th>
+            <th scope="col">Discount</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for offer in cat_off %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{ offer.category.category_name }}</td>
+            <td>{{ offer.discount_amnt }}</td>
+            <td>
+                {% if offer.is_expired == 'False' %}
+                <a class="btn btn-success">Active</a>
+                {% else %}
+                <a class="btn btn-danger">Expired</a>
+                {% endif %}
+              </td>
+
+              <td class="text-center">
+                <ul class="table-controls">
+                    <li><a href="{% url 'editCategoryOffer' offer.id %}" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="flaticon-edit  p-1 br-6 mb-1"></i></a></li>
+                    <li><a href="{% url 'deleteCategoryOffer' offer.id %}" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="flaticon-delete  p-1 br-6 mb-1"></i></a></li>
+                </ul>
+            </td>
+
+
+          </tr>
+          {% endfor%}
+  
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  
+  
+  
+  <script src="{% static '/assets/js/libs/jquery-3.1.1.min.js' %}"></script>
+  <script src="{% static '/bootstrap/js/popper.min.js' %}"></script>
+  <script src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static '/plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+  <script src="{% static '/assets/js/app.js' %}"></script>
+  
+  
+  <script>
+    $(document).ready(function () {
+      App.init();
+    });
+  </script>
+  <script src="{% static '/assets/js/custom.js' %}"></script>
+  <!-- END GLOBAL MANDATORY STYLES -->
+  
+  
+  
+  <script src="{% static '/plugins/table/datatable/datatables.js' %}"></script>
+  <script>
+    $('#zero-config').DataTable({
+      "language": {
+          "paginate": { "previous": "<i class='flaticon-arrow-left-1'></i>", "next": "<i class='flaticon-arrow-right'></i>" },
+          "info": "Showing page _PAGE_ of _PAGES_"
+      }
+  });
+  </script>
+
+
+
+{% endblock %}

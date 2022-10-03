@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<!-- Start Page Title -->
+<div class="page-title-area">
+    <div class="container">
+        <div class="page-title-content">
+            <h2>{{category_name.category_name}}</h2>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li>Products</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Page Title -->
+
+<!-- Start Products Area -->
+
+
+    <section class="products-area products-collections-area pt-100 pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-12">
+                    <div class="woocommerce-widget-area">
+                        <!-- <div class="woocommerce-widget price-list-widget"> -->
+                            <h3 class="woocommerce-widget-title"><b>Filter Products</b></h3>
+
+                            <!-- <div class="collection-filter-by-price">
+                                <input class="js-range-of-price" type="text" data-min="0"
+                                    data-max="1055" name="filter_by_price" data-step="10">
+                            </div> -->
+                        <!-- </div> -->
+<!-- START FILTER PRICE -->
+                        <div class="woocommerce-widget brands-list-widget">
+                            <h3 class="woocommerce-widget-title mt-4">By Categories</h3>
+                            <ul class="brands-list-row">
+                                
+                                <li><a href="#">All Products</a></li>
+                              
+                            
+                                {% for caty in category %}
+                                <li><a href="?categories={{ caty.slug }}">{{ caty.category_name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+<!-- END FILTER PRICE -->
+                        <div class="woocommerce-widget brands-list-widget">
+                            <h3 class="woocommerce-widget-title">By Price</h3>
+
+                            <ul class="brands-list-row">
+                                {% for f_price in filter_price %}
+                                <li><a href="?filter_price={{ f_price.id }}">{{ f_price.price }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+<!-- START FILTER VIEW -->
+                <div class="col-lg-8 col-md-12">
+                    <div class="products-filter-options">
+                        <div class="row align-items-center">
+                            <div class="col-lg-4 col-md-4">
+                                <div class="d-lg-flex d-md-flex align-items-center">
+                                    <span class="sub-title d-lg-none"><a href="#" data-bs-toggle="modal"
+                                            data-bs-target="#productsFilterModal"><i
+                                                class='bx bx-filter-alt'></i> Filter</a></span>
+
+                                    <span class="sub-title d-none d-lg-block d-md-block">View:</span>
+
+                                    <div class="view-list-row d-none d-lg-block d-md-block">
+                                        <div class="view-column">
+                                            <a href="#" class="icon-view-two">
+                                                <span></span>
+                                                <span></span>
+                                            </a>
+
+                                            <a href="#" class="icon-view-three active">
+                                                                <span></span>
+                                                                <span></span>
+                                                                <span></span>
+                                            </a>
+
+                                            <a href="#" class="icon-view-four">
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </a>
+
+                                            <a href="#" class="view-grid-switch">
+                                                <span></span>
+                                                <span></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="products-collections-filter" class="row">
+                        {% for items in products %}
+                        <div class="col-lg-4 col-md-8 col-sm-6 products-col-item">
+                            
+                            <div class="products-box">
+                                <div class="products-image">
+                                    <a href="{% url 'productView' items.category.slug items.slug %}">
+                                        <img src="{{ items.product_image.url }}" class="main-image"
+                                                            alt="image">
+                                        <img src="{{ items.product_image_1.url }}" class="hover-image"
+                                                            alt="image">
+                                    </a>
+                                    <div class="new-tag">{{ items.tag }}!</div>
+
+
+                                    {% if items.product_offer.discount and items.category.cat_offer.discount_amnt %}
+                                        {% if items.product_offer.discount > items.category.cat_offer.discount_amnt %}
+                                            <span class="products-discount">
+                                                <span>
+                                                    {{ items.product_offer.discount }} %
+                                                </span>
+                                            </span>
+                                        {% else %}
+                                            <span class="products-discount">
+                                                <span>
+                                                    {{ items.category.cat_offer.discount_amnt }} %
+                                                </span>
+                                            </span>
+                                        {% endif %}
+                                    {% elif items.product_offer.discount %}
+                                        <span class="products-discount">
+                                            <span>
+                                                {{ items.product_offer.discount }} %
+                                            </span>
+                                        </span>
+                                    {% elif items.category.cat_offer.discount_amnt %}
+                                        <span class="products-discount">
+                                            <span>
+                                                {{ items.category.cat_offer.discount_amnt }} %
+                                            </span>
+                                        </span>
+                                    {% endif %}                          
+                                </div>
+
+                                <div class="products-content">
+                                    <span class="category">{{ items.category.category_name}}</span>
+                                    <h3>
+                                        <a href="{% url 'productView' items.category.slug items.slug %}">{{items.product_name}}</a>
+                                    </h3>
+                                    <div class="price">
+                                        {% if not items.discount_price < 1 %} <span class="old-price"><del
+                                            class="text-danger">{{ items.orignal_price }}</del></span>
+                                        <span class="new-price">{{ items.discount_price }}</span><br>
+                                        
+                                        {% else %}
+                                        <span class="new-price">{{ items.orignal_price }}</span>
+
+                                        {% endif %}
+                                    </div>
+                                    <a href="#" class="add-to-cart">Add to Cart</a>
+                                </div>
+
+                                
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                  
+                </div>
+<!-- END FILTER VIEW -->
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- End Products Area -->
+{% endblock %}

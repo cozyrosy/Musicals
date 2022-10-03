@@ -1,0 +1,52 @@
+{% extends 'adminBase.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container  mt-5">
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-6 col-lg-6 col-md-6 col-sm-12 col-12  layout-spacing">
+            <div class="statbox widget box box-shadow">
+                <div class="widget-header">                                
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                            <h4>Add Product Offer</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-content widget-content-area">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {% for msgs in messages %}
+                        {{ msgs }}
+                         {% endfor %}
+                        <div class="form-group mb-4">
+                            <label for="formGroupExampleInput" >Product</label>
+                            <div>
+                                <select class="form-control form-custom mb-3" name="product">
+                                    {% for pdt in prod %}
+                                    <option value="{{pdt.id}}" id="formGroupExampleInput">{{pdt.product_name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <!-- <input type="text" Required name="category" class="form-control"> -->
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="formGroupExampleInput2">Discount Price</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput2" value="{{ prod_off_edit.discount }}" name="discount">
+                        </div>
+                        
+                            <div class="custom-control custom-checkbox mb-4">
+                                <input type="checkbox" class="custom-control-input" id="customCheck1" name="check">
+                                <label class="custom-control-label" for="customCheck1">Activate</label>
+                            </div>
+                       
+                        <input type="submit" name="time" class="mb-4 btn btn-button-7">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,108 @@
+{% if not cart_items %}
+    <h2>Your Cart is Empty</h2><br>
+    <div class="col-lg-7 col-sm-7 col-md-7">
+        <a href="{% url 'home' %}" class="optional-btn">Continue Shopping</a>
+    </div>
+{% else %}
+
+    <div class="cart-table table-responsive">
+        <table class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Name</th>
+                    <!-- <th scope="col">Unit Price</th> -->
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            {% for cart_item in cart_items %}
+            <tbody class="product-data">
+
+                <tr>
+                    <td class="product-thumbnail">
+                        <a href="#">
+                            <img src="{{ cart_item.product.product_image.url}}" alt="item">
+                        </a>
+                    </td>
+
+                    <td class="product-name">
+                        <a href="#">{{ cart_item.product.product_name}}</a>
+                        <ul>
+                            <!-- <li>Color: <span>Light Blue</span></li>
+                                        <li>Size: <span>XL</span></li> -->
+                            <!-- <li>Description:<br> <span>{{ cart_item.product.description }}</span></li> -->
+                        </ul>
+                    </td>
+
+                    <!-- <td class="product-price">
+                                <span class="unit-amount">{{ total }}</span>
+                            </td> -->
+
+                    <td class="product-quantity ">
+                        <input type="hidden" class="prod_id" value="{{ cart_item.product_id }}">
+                        {% csrf_token %}
+                        <div class="input-counter">
+                            <a type="button" 
+                                hx-post="{% url 'remove_cart' cart_item.product.id %}" 
+                                hx-target="#cat_htmx"
+                                hx-swap="innerHTML" class="minus-btn input-group-text">
+                                <i class='bx bx-minus'></i>
+                            </a>
+
+                            <input type="number" class="form-control text-center" value="{{ cart_item.quantity }}">
+
+                            <a type="button" 
+                                hx-post="{% url 'add_cart' cart_item.product.id %}" 
+                                hx-target="#cat_htmx"
+                                hx-swap="innerHTML" class="plus-btn input-group-text">
+                                <i class='bx bx-plus'></i>
+                            </a>
+                        </div>
+                    </td>
+
+                    <td class="product-subtotal">
+                        <span class="subtotal-amount">{{ cart_item.sub_total }}</span>
+
+                        <a href="{% url 'remove_cart_item' cart_item.product.id %}" class="remove"><i
+                                class='bx bx-trash'></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="cart-totals">
+        <h3>Cart Totals</h3>
+
+        <ul>
+            <li>Subtotal <span>Rs {{ total }}</span></li>
+            <!-- <li>Shipping <span>Rs 30.00</span></li> -->
+            <li>Tax <span>Rs {{tax}}</span></li>
+            <li>Coupon <span> {{coupon_code}} </span></li>
+            <li>Coupon Discount<span> {{coupon}} %</span></li>
+            <li>Grand Total <span>Rs {{ grand_total }}</span></li>
+            <li>
+                <form method="POST">
+                    {% csrf_token %}
+                    {% for msg in messages %}
+                    <p class="alert alert-{% if msg.tags %}{{ msg.tags }}{% endif %} mt-4" role="alert">{{ msg }}
+                    </p>
+                    {% endfor %}
+                    <label for="" class="form-label fw-bold fs-3 ">Apply coupon</label>
+                    <input type="text" name="coupon" class="form-control mt-4">
+
+                    <button type="submit" class="btn btn-warning mt-4">Apply</button>
+                </form>
+            </li>
+        </ul>
+
+        <a href="{% url 'checkout' %}" class="default-btn">Proceed to Checkout</a>
+
+    </div>
+
+{% endif %}

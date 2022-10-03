@@ -1,0 +1,45 @@
+{% extends 'adminBase.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container  mt-5">
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-6 col-lg-6 col-md-6 col-sm-12 col-12  layout-spacing">
+            <div class="statbox widget box box-shadow">
+                <div class="widget-header">                                
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                            <h4>Add Coupon</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-content widget-content-area">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        {% for msgs in messages %}
+                           {{ msgs }}
+                            {% endfor %}
+                        <div class="form-group mb-4">
+                            <label for="formGroupExampleInput">Coupon Code</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput" value="{{cpn_edit.coupon_code}}" name="code">
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="formGroupExampleInput2">Discount Price</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput2" value="{{cpn_edit.discount_price}}" name="discount">
+                        </div>
+                        
+                            <div class="custom-control custom-checkbox mb-4">
+                                <input type="checkbox" class="custom-control-input" id="customCheck1" name="checkk">
+                                <label class="custom-control-label" for="customCheck1">Activate</label>
+                            </div>
+                       
+                        <input type="submit" name="time" class="mb-4 btn btn-button-7">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

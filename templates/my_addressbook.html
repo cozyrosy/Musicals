@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<!-- Start Page Title -->
+<div class="page-title-area">
+    <div class="container">
+        <div class="page-title-content">
+            <h2><span>{{ user.username }} </span> Profile</h2>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li>User Profile</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Page Title -->
+
+
+<!-- Start Profile Page  -->
+
+<div class="container">
+    <div class="main-body">
+        <div class="row gutters-sm flex">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin"
+                                class="rounded-circle" width="150">
+                            <div class="mt-3">
+                                <h4>{{ user.username }}</h4>
+                                <!-- <p class="text-secondary mb-1">Full Stack Developer</p>
+                                <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>-->
+                                <a href="{% url 'password_change' %}" class="default-btn">Change Passwrod</a>
+                                <!-- <button class="optional-btn">Message</button>  -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <strong><a href="{% url 'orders' %}" class="mb-0">My Orders</a></strong>
+
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <strong><a href="{% url 'my_addressbook' %}" class="mb-0">Address Book</a></strong>
+
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <strong><a href="{% url 'cart' %}" class="mb-0">Cart</a></strong>
+
+                        </li>
+                        <!-- <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <strong><a class="mb-0">Wishlist</a></strong>
+
+                        </li> -->
+
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h3 class="my-4 border-bottom pb-1">Address Book <a href="{% url 'save_address' %}"><i class="fa fa-plus float-end  btn btn-sm btn-success" ></i></a></h3>
+                <div class="row">
+                    {% for add in addbook %}
+                    <div class="col-md">
+                        <!-- <div class="card {% if add.status %} border-secondary {% endif %} address{{ add.id }} address"> -->
+
+                            <div class="accordion accordion-flush" id="accordionFlushExample">
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header" id="flush-headingOne">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                        {{ add.lname}}
+                                    </button>
+                                  </h2>
+                                  <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body"><label name="lname" value="{{ add.lname}}" for="">{{ add.lname}}</label><br>
+                                        <input type="text" name="lname" value="{{ add.lname}}" hidden>
+
+                                        <label name="name" value="{{ add.address}}" for=""> {{ add.address}}</label><br>
+                                        <input type="text" name="address" value="{{ add.address}}" hidden>
+                                        
+                                        <label name="phone" value="{{ add.phone}}" for="">{{ add.phone}}</label><br>
+                                        <input type="text" name="phone" value="{{ add.phone}}" hidden>
+                                       
+                                        <label name="country" value="{{ add.country}}" for="">{{ add.country}}</label><br>
+                                        <input type="text" name="country" value="{{ add.country}}" hidden>
+
+                                        <label name="state" value="{{ add.state}}" for="">{{ add.state}}</label><br>
+                                        <input type="text" name="state" value="{{ add.state}}" hidden>
+
+                                        <label name="city" value=" {{ add.city}}" for=""> {{ add.city}}</label><br>
+                                        <input type="text" name="city" value=" {{ add.city}}" hidden>
+
+                                        <label name="pincode" value="{{ add.pincode}}" for="">{{ add.pincode}}</label><br>
+                                        <input type="text" name="pincode" value="{{ add.pincode}}" hidden><br>
+
+                                        <a href="{% url 'editAddress' add.id %}" class="optional-btn">Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="{% url 'deleteAddress' add.id %}" class="default-btn">Delete</a>
+                                    </div>
+
+                                  </div>
+                                </div> <br><br>
+                           
+                            <br><br>
+                            <!-- <div class="d-flex justify-content-between p-2">
+                                <a href="" class="optional-btn">Edit</a>
+                                <a href="" class="default-btn">Delete</a>
+                            </div><br> -->
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <br><br>
+    </div>
+</div>
+
+<!-- End Profile Page  -->
+
+
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    $(document).on('click', '.activate-address', function(){
+        var _aId=$(this).attr('data-address');
+        var _vm=$(this);
+        //ajax
+        $.ajax({
+            url:'/activate-address',
+            data:{
+                'id':_aId,
+            },
+            dataType:'json',
+            beforeSend:function(){
+                _vm.attr('disabled', true);
+            },
+            success:function(res){
+               if(res.bool==true){
+                $(".address").removeClass('shadow border-secondary');
+                $(".address"+_aId).addClass('shadow border-secondary');
+
+                $(".check").hide();
+                $(".actbtn").show();
+
+                $(".check"+_aId).show();
+                $(".btn"+_aId).hide();
+                
+               }
+            }
+        })
+    })
+</script>
+
+{% endblock scripts %}

@@ -1,0 +1,54 @@
+{% extends 'adminBase.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="fw-bold">Edit Category</h2>
+                    </div>
+                    <div class="card-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="" class="form-label">Name</label>
+                                <input type="text" Required name="name" value="{{ cat.category_name}}" class="form-control">
+                            </div>
+                            
+                            <div class="mb-3">
+                                {% if cat.cat_image %} 
+                                    <img src="{{ cat.cat_image.url }}" alt="" style="width:60px;height:60px;">
+                                {% endif %}
+                                <label for="" class="form-label">Image</label>
+                                <input type="file" Required name="image" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Description</label>
+                                <input type="text" Required name="description" value="{{ cat.description}}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Slug</label>
+                                <input type="text" Required name="slug" value="{{ cat.slug}}" class="form-control">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

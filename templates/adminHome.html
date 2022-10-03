@@ -1,0 +1,201 @@
+{% extends 'adminBase.html' %}
+{% load static %}
+{% block content %}
+
+<!--  BEGIN MAIN CONTAINER  -->
+
+<div id="content" class="main-content">
+    <div class="container">
+        <div class="page-header">
+            <div class="page-title">
+                <h3>Dashboard</h3>
+            </div>
+        </div>
+
+        <div class="row layout-spacing ">
+
+            <div class="col-xl-3 mb-xl-0 col-lg-6 mb-4 col-md-6 col-sm-6">
+                <div class="widget-content-area  data-widgets br-4">
+                    <div class="widget  t-sales-widget">
+                        <div class="media">
+                            <div class="icon ml-2">
+                                <i class="flaticon-user-11"></i>
+                            </div>
+                            <div class="media-body text-right">
+                                <p class="widget-text mb-0">Customers</p>
+                                <p class="widget-numeric-value">{{users}}</p>
+                            </div>
+                        </div>
+                        <p class="widget-total-stats mt-2">Total Customers</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 mb-xl-0 col-lg-6 mb-4 col-md-6 col-sm-6">
+                <div class="widget-content-area  data-widgets br-4">
+                    <div class="widget  t-order-widget">
+                        <div class="media">
+                            <div class="icon ml-2">
+                                <i class="flaticon-cart-bag"></i>
+                            </div>
+                            <div class="media-body text-right">
+                                <p class="widget-text mb-0">Orders</p>
+                                <p class="widget-numeric-value">{{orders}}</p>
+                            </div>
+                        </div>
+                        <p class="widget-total-stats mt-2">Total Orders</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 mb-sm-0 mb-4">
+                <div class="widget-content-area  data-widgets br-4">
+                    <div class="widget  t-customer-widget">
+                        <div class="media">
+                            <div class="icon ml-2">
+                                <i class="flaticon-line-chart"></i>
+                            </div>
+                            <div class="media-body text-right">
+                                <p class="widget-text mb-0">Products</p>
+                                <p class="widget-numeric-value">{{pdts}}</p>
+                            </div>
+                        </div>
+                        <p class="widget-total-stats mt-2">Total Products</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+                
+                <div class="widget-content-area  data-widgets br-4">
+                    <div class="widget  t-income-widget">
+                        <div class="media">
+                            <div class="icon ml-2">
+                                <i class="flaticon-money"></i>
+                            </div>
+                            <div class="media-body text-right">
+                                <p class="widget-text mb-0">Categories</p>
+                                <p class="widget-numeric-value">{{cats}}</p>
+                            </div>
+                        </div>
+                        <p class="widget-total-stats mt-2">Total Categories</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 layout-spacing">
+                <div class="statbox widget box box-shadow">
+                    <div class="widget-header">                                
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h4>Distributed Series</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-content widget-content-area bar-charts">
+                        <div class="row layout-spacing">
+                                <canvas id="myChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-lg-6 layout-spacing">
+                <div class="statbox widget box box-shadow">
+                    <div class="widget-header">                                
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h4>asdf</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-content widget-content-area ">
+                        <div class="row layout-spacing">
+                                <canvas id="myChartPie"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--  END MAIN CONTAINER  -->
+
+<!-- START CHARTS SCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const labels = {{monthNumber|safe}};
+
+    const data = {
+        labels: labels,
+        datasets: [{
+        label: 'Orders by Month',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: {{totalOrders}},
+        }]
+    };
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {}
+    };
+
+    const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );    
+    
+</script>
+
+
+<!-- END CHARTS SCRIPT -->
+
+<!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
+<script src="{% static 'assets/js/libs/jquery-3.1.1.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'plugins/scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+<script src="{% static 'assets/js/app.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        App.init();
+    });
+</script>
+<script src="{% static 'assets/js/custom.js' %}"></script>
+<!-- END GLOBAL MANDATORY SCRIPTS -->
+
+<!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+<script src="{% static 'plugins/charts/chartist/chartist.js' %}"></script>
+<script src="{% static 'plugins/maps/vector/jvector/jquery-jvectormap-2.0.3.min.js' %}"></script>
+<script src="{% static 'plugins/maps/vector/jvector/worldmap_script/jquery-jvectormap-world-mill-en.js' %}"></script>
+<script src="{% static 'plugins/calendar/pignose/moment.latest.min.js' %}"></script>
+<script src="{% static 'plugins/calendar/pignose/pignose.calendar.js' %}"></script>
+<script src="{% static 'plugins/progressbar/progressbar.min.js' %}"></script>
+<script src="{% static 'assets/js/default-dashboard/default-custom.js' %}"></script>
+<script src="{% static 'assets/js/support-chat.js' %}"></script>
+<!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+
+
+
+<script src="{% static 'assets/js/ui-kit/timeline/horizontal-main.js' %}"></script>
+    <script src="{% static 'plugins/progressbar/progressbar.min.js' %}"></script>
+    <script src="{% static 'plugins/charts/amcharts/amcharts.js' %}"></script>
+    <script src="{% static 'plugins/maps/vector/ammaps/ammap_amcharts_extension.js' %}"></script>
+    <script src="{% static 'plugins/maps/vector/ammaps/worldLow.js' %}"></script>
+    <script src="{% static 'plugins/charts/amcharts/radar.js' %}"></script>
+    <script src="{% static 'plugins/charts/amcharts/pie.js' %}"></script>
+    <script src="{% static 'plugins/charts/sparklines/jquery.sparkline.min.js' %}"></script>
+    <script src="{% static 'plugins/charts/amcharts/serial.js' %}"></script>
+    <script src="{% static 'plugins/charts/amcharts/light.js' %}"></script>
+    <script src="{% static 'assets/js/ecommerce-dashboard/ecommerce-custom.js' %}"></script>
+</body>
+
+</html>
+
+{% endblock %}
