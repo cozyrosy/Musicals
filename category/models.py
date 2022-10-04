@@ -1,14 +1,7 @@
 from datetime import datetime
-from distutils.command.upload import upload
-from email.mime import image
-from itertools import product
-from operator import mod
-from tkinter import CASCADE
-from unicodedata import category
 from django.db import models
 import os
 import datetime
-from accounts.models import Account
 
 # Create your models here.
 def get_file_path(request, filename):

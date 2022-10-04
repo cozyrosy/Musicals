@@ -1,6 +1,3 @@
-import email
-from multiprocessing.sharedctypes import Value
-from operator import mod, truediv
 
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
