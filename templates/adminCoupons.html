@@ -44,20 +44,20 @@
                   {% if coupon.is_expired %}
                   <input name="_method" type="hidden" value="DELETE">
                   <a href="{% url 'couponBlock' coupon.id %}" 
-                    class="btn btn-danger warning cancel show_confirm">Block</a>
+                    class="btn btn-warning warning cancel show_confirm">Block</a>
                   {% else %}
                   <a href="{% url 'couponBlock' coupon.id %}"
-                    class="btn btn-primary">Unblock</a>
+                    class="btn btn-dark">Unblock</a>
                   {% endif %}
                 </form>
               </td>
 
               <td class="text-center">
                 <ul class="table-controls">
-                    <li><a href="{% url 'couponEdit' coupon.id %}" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="flaticon-edit  p-1 br-6 mb-1"></i></a></li>
-                    <li><a href="{% url 'couponDelete' coupon.id %}" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="flaticon-delete  p-1 br-6 mb-1"></i></a></li>
+                    <li><a href="{% url 'couponEdit' coupon.id %}" class="btn btn-primary" >Edit</a></li>
+                    <li><a href="{% url 'couponDelete' coupon.id %}" class="btn btn-danger" >Delete</a></li>
                 </ul>
-            </td>
+              </td>
 
 
           </tr>

@@ -28,7 +28,7 @@ import calendar
 def adminHomee(request):
     print('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')
     if 'username' in request.session:
-        return render(request, 'adminHome.html',context)
+        return render(request, 'adminHome.html')
     if request.user.is_authenticated:
         orders = OrderProduct.objects.aggregate(Count('id')).get('id__count')
         users = Account.objects.aggregate(Count('id')).get('id__count')
@@ -559,8 +559,8 @@ def addProductOffer(request):
     prod = Product.objects.all()
     if request.method=='POST':
         prod_off = ProductOffer()
-        # cpnsoo = request.POST.get('check')
-
+        cpnsoo = request.POST.get('check')
+        prod_off.is_expired = cpnsoo
         prod_off.discount = request.POST.get('discount') 
         product = request.POST.get('product')
         cat = Product.objects.get(id=product)
@@ -631,6 +631,17 @@ def deleteProductOffer(request,pk):
     p_offer_del = ProductOffer.objects.get(id=pk)
     p_offer_del.delete()
     messages.success(request,"Product offer deleted successfully")
+    return redirect(productOffer)
+
+def productOfferBlock(request, pk):
+    user = ProductOffer.objects.get(id = pk)
+    if user.is_expired:
+        user.is_expired = False
+        messages.error(request,"Offer blocked successfully")
+    else:
+        user.is_expired = True
+        messages.error(request,"Offer unblocked successfully")
+    user.save()
     return redirect(productOffer)
 
 
@@ -725,3 +736,14 @@ def deleteCategoryOffer(request,pk):
     cat_offer_del.delete()
     messages.success(request,"Category offer deleted successfully")
     return redirect('categoryOffer')
+
+def categoryOfferBlock(request, pk):
+    user = CategoryOffer.objects.get(id = pk)
+    if user.is_expired:
+        user.is_expired = False
+        messages.error(request,"Offer blocked successfully")
+    else:
+        user.is_expired = True
+        messages.error(request,"Offer unblocked successfully")
+    user.save()
+    return redirect(categoryOffer)

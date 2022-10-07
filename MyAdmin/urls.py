@@ -25,6 +25,7 @@ urlpatterns = [
     path('addProduct/', views.addProduct, name='addProduct'),
     path('editProduct/<str:pk>', views.editProduct, name='editProduct'),
     path('deleteProduct/<str:pk>', views.deleteProduct, name='deleteProduct'),
+
 # ADMIN ORDER MANAGEMENT
     path('adminOrders/', views.adminOrders, name="adminOrders"),
     path('orderStatusView/<str:id>/', views.order_status_view, name="order_status_view"),
@@ -40,11 +41,13 @@ urlpatterns = [
     path('addProductOffer/', views.addProductOffer, name="addProductOffer"),
     path('editProductOffer/<str:pk>', views.editProductOffer, name="editProductOffer"),
     path('deleteProductOffer/<str:pk>', views.deleteProductOffer, name="deleteProductOffer"),
+    path('productOfferBlock/<str:pk>', views.productOfferBlock, name='productOfferBlock'),
 # ADMIN CATEGORY OFFER MANAGEMENT
     path('categoryOffer/', views.categoryOffer, name="categoryOffer"),
     path('addcategoryOffer/', views.addcategoryOffer, name="addcategoryOffer"),
     path('editCategoryOffer/<str:pk>', views.editCategoryOffer, name="editCategoryOffer"),
     path('deleteCategoryOffer/<str:pk>', views.deleteCategoryOffer, name="deleteCategoryOffer"),
+    path('categoryOfferBlock/<str:pk>', views.categoryOfferBlock, name="categoryOfferBlock"),
 # ADMIN LOGOUT
     path('adminLogout/',LogoutView.as_view(next_page= 'adminLogin'), name='adminLogout'),
     

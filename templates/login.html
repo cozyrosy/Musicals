@@ -32,7 +32,8 @@
                             {% endfor %}
                         {% for fm in form %}
                             {{fm.label_tag}}
-                            {{fm}}<br>
+                            {{fm}}
+                            <small class="text-danger">{{fm.errors|striptags}}</small><br>
                             <!-- <small class="text-danger">{{fm.errors|striptags}}</small> -->
                         {% endfor %}
 
