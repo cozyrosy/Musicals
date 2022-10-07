@@ -7,7 +7,7 @@
 <div id="content" class="main-content">
   <div class="container">
 
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
           <div class="order-top-section">
               <h4 class="mb-5 card-title text-center">Order </h4>
@@ -59,7 +59,7 @@
                   </div>
               </div>
           </div>
-      </div>
+      </div> -->
 
 
     <table id="zero-config" class=" table table-hover">
@@ -93,7 +93,7 @@
             </form>
           </td>
           <td class="text-center">
-            {% if item.status == 'Pending' %}
+            {% if item.status == 'Order Confirmed' %}
             <span class="badge badge-secondary shadow-none badge-pill">{{ item.status}}</span>
             {% elif item.status == 'Cancelled'%}
             <span class="badge badge-danger shadow-none badge-pill">{{ item.status}}</span>

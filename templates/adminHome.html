@@ -83,13 +83,29 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-12 layout-spacing">
+            <div class="statbox widget box box-shadow">
+                <div class="widget-header">                                
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                            <h4>Line Chart</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-content widget-content-area bar-charts">
+                    <div class="row layout-spacing" >
+                            <canvas id="myChartPie"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-6 layout-spacing">
                 <div class="statbox widget box box-shadow">
                     <div class="widget-header">                                
                         <div class="row">
                             <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                <h4>Distributed Series</h4>
+                                <h4>Bar Chart</h4>
                             </div>
                         </div>
                     </div>
@@ -100,22 +116,23 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="col-lg-6 layout-spacing">
+            
+            <div class="col-lg-6 layout-spacing ">
                 <div class="statbox widget box box-shadow">
                     <div class="widget-header">                                
                         <div class="row">
                             <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                <h4>asdf</h4>
+                                <h4>Pie Chart</h4>
                             </div>
                         </div>
                     </div>
                     <div class="widget-content widget-content-area ">
-                        <div class="row layout-spacing">
-                                <canvas id="myChartPie"></canvas>
+                        <div class="row layout-spacing" style="width: 273px; height:290px">
+                                <canvas id="myPie" style="height: 310.8px; width:431.8px;"></canvas>
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </div>
@@ -147,11 +164,44 @@
     };
 
     const myChart = new Chart(
-    document.getElementById('myChart'),
-    config
+        document.getElementById('myChart'),
+        config
   );    
-    
+  const configer = {
+    type: 'line',
+    data: data,
+    options: {}
+};
+const myChartPie = new Chart(
+document.getElementById('myChartPie'),
+configer
+);
+
+const datas = {
+    labels: {{monthNumber|safe}},
+    datasets: [{
+        label: 'My First Dataset',
+        data: {{totalOrders}}, 
+        backgroundColor: [
+          'rgb(255, 99, 132)',
+          'rgb(255, 205, 86)'
+        ],
+        hoverOffset: 4
+      }]
+    };
+const confige = {
+    type: 'doughnut',
+    data: datas,
+   
+};
+const myPie = new Chart(
+document.getElementById('myPie'),
+confige
+);
+  
 </script>
+
+
 
 
 <!-- END CHARTS SCRIPT -->

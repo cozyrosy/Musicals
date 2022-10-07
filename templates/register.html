@@ -28,8 +28,8 @@
                 {% endfor %}
                 {% for fm in form %}
                     {{fm.label_tag}}
-                    {{fm}}<br>
-                    <small class="text-danger">{{fm.errors|striptags}}</small>
+                    {{fm}}
+                    <small class="text-danger">{{fm.errors|striptags}}</small><br>
                 {% endfor%}
 
                 <button type="submit" class="default-btn mt-4">Signup</a>
