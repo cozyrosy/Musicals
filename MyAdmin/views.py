@@ -375,7 +375,7 @@ def dashboard(request):
 
     return render(request, "adminindex.html", cod)
 
-
+@cache_control(no_cache =True, must_revalidate =True, no_store =True)
 def salesReport(request):
     salesreport = OrderProduct.objects.all()
     #product_order = Product.objects.all()

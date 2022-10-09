@@ -71,9 +71,9 @@
 
             <form action="" method="POST" class="sign-upform">
                 {% csrf_token %}
-                {{ form.as_table}}
+                {{ form.as_p}}
                 <tr>
-                    <td colspan="2">
+                    <td>
                         <button type="submit" class="default-btn">Save</a>
                     </td>
                 </tr>
