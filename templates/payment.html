@@ -271,7 +271,7 @@
                     //console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
                     //alert(orderData.id);
 
-                    var fname= $("[name='fname']").val();
+                    var lname= $("[name='lname']").val();
                     var phone= $("[name='phone']").val();
                     var address= $("[name='address']").val();
                     var country= $("[name='country']").val();
@@ -281,7 +281,7 @@
                     var token = $("[name='csrfmiddlewaretoken']").val();
 
                     data = {
-                        "fname": fname,
+                        "lname": lname,
                         "phone": phone,
                         "address":address,
                         "country":country,
