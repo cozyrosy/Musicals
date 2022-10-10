@@ -90,15 +90,29 @@
                                         {% csrf_token %}
 
                                         <div class="select-box">
-
-                                            <select class="form-control" name="status">
-                                                <option value="{{order.status}}">{{ order.status}}</option>
-                                                <option>Order Confirmed</option>
-                                                <option>Out for delivery</option>
-                                                <option>Delivered</option>
-                                                <option>Cancelled</option>
-                                                <!-- <option>Returned </option> -->
-                                            </select>
+                                            {% if order.status == "Order Confirmed" %}
+                                                <select class="form-control" name="status">
+                                                    <option value="{{order.status}}">{{ order.status}}</option>
+                                                    <option>Order Confirmed</option>
+                                                    <option>Out for delivery</option>
+                                                    <option>Delivered</option>
+                                                    <option>Cancelled</option>
+                                                    <!-- <option>Returned </option> -->
+                                                </select>
+                                            {% elif order.status == "Out for delivery" %}
+                                                <select class="form-control" name="status">
+                                                    <option value="{{order.status}}">{{ order.status}}</option>
+                                                    <option>Out for delivery</option>
+                                                    <option>Delivered</option>
+                                                    <option>Cancelled</option>
+                                                    <!-- <option>Returned </option> -->
+                                                </select>
+                                            {% elif order.status == "Delivered" %}
+                                                <select class="form-control" name="status">
+                                                    <option value="{{order.status}}">{{ order.status}}</option>
+                                                    <option>Delivered</option>
+                                                </select>
+                                            {% endif %}
                     </td><br>
                     <button type="submit" class="btn btn-primary">Submit</button>
 
