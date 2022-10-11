@@ -6,57 +6,89 @@
 
 <div id="content" class="main-content">
   <div class="container">
-    <div class="page-header">
-      <div class="page-title">
-        <h2>Categories</h2>
+    <div class="main-container" id="container">
+      <div id="content" class="main-content">
+        <div class="container">
+          <div class="page-header">
+            <div class="page-title">
+              <h3>View Categories</h3>
+              <div class="crumbs">
+                <ul id="breadcrumbs" class="breadcrumb">
+                  <li><a href="#"><i class="flaticon-home-fill"></i></a></li>
+                  <li><a href="#">eCommerce</a></li>
+                  <li class="active"><a href="#">View Categories</a> </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+
+          <div>
+            <a href="{% url 'addCategory' %}">
+              <button type="button" class="btn btn-secondary mb-3">Add Category</button>
+            </a>
+          </div>
+          <div class="row" id="cancel-row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+              <div class="statbox widget box box-shadow">
+                <div class="widget-header">
+                  <div class="row">
+                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                      <h4>Category Details </h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="widget-content widget-content-area">
+                  <div class="table-responsive mb-4">
+                    <table class="table table-bordered table-hover" id='zero-config'>
+                      <thead>
+                        <tr>
+                          <th scope="col">No </th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Image</th>
+                          <th scope="col">Description</th>
+                          <!-- <th scope="col">status</th> -->
+                          <th scope="col">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for item in category %}
+                        <tr>
+                          <th scope="row">{{forloop.counter}}</th>
+                          <td>{{item.category_name}}</td>
+                          {% if item.cat_image %}
+                          <td>
+                            <img src="{{ item.cat_image.url }}" alt="" style="width:60px;height:60px;">
+                          </td>
+                          {% endif %}
+
+                          <td>{{item.description}}</td>
+                          <!-- <td>{{item.status}}</td> -->
+                          <td>
+                            <form action="" method="post">
+                              {% csrf_token %}
+                              <input type="hidden" name="name" value="{{item.name}}">
+                              <!-- <button type="button" class="btn btn-primary">Edit</button> -->
+                              <a href="{% url 'DeleteCategory' item.id %}" class="btn btn-danger">Delete</a>
+                              <a href="{% url 'editCategory' item.id %}" class="btn btn-primary">Edit</a>
+                            </form>
+                          </td>
+                        </tr>
+                        {% endfor%}
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-      <div >
-        <a href="{% url 'addCategory' %}">
-          <button type="button" class="btn btn-secondary mb-3">Add Category</button>
-        </a>
-      </div>
-    
-    <table class="table table-hover" id='zero-config'>
-      <thead>
-        <tr>
-          <th scope="col">No </th>
-          <th scope="col">Name</th>
-          <th scope="col">Image</th>
-          <th scope="col">Description</th>
-          <!-- <th scope="col">status</th> -->
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for item in category %}
-        <tr>
-          <th scope="row">{{forloop.counter}}</th>
-          <td>{{item.category_name}}</td>
-          {% if item.cat_image %}
-          <td>
-            <img src="{{ item.cat_image.url }}" alt="" style="width:60px;height:60px;">
-          </td>
-          {% endif %}
-
-          <td>{{item.description}}</td>
-          <!-- <td>{{item.status}}</td> -->
-          <td>
-            <form action="" method="post">
-              {% csrf_token %}
-              <input type="hidden" name="name" value="{{item.name}}">
-              <!-- <button type="button" class="btn btn-primary">Edit</button> -->
-              <a href="{% url 'DeleteCategory' item.id %}" class="btn btn-danger">Delete</a>
-              <a href="{% url 'editCategory' item.id %}" class="btn btn-primary">Edit</a>
-            </form>
-          </td>
-        </tr>
-        {% endfor%}
-
-      </tbody>
-    </table>
   </div>
 </div>
+
 
 
 
@@ -75,15 +107,13 @@
 <script src="{% static '/assets/js/custom.js' %}"></script>
 <!-- END GLOBAL MANDATORY STYLES -->
 
-
-
 <script src="{% static '/plugins/table/datatable/datatables.js' %}"></script>
 <script>
   $('#zero-config').DataTable({
     "language": {
-        "paginate": { "previous": "<i class='flaticon-arrow-left-1'></i>", "next": "<i class='flaticon-arrow-right'></i>" },
-        "info": "Showing page _PAGE_ of _PAGES_"
+      "paginate": { "previous": "<i class='flaticon-arrow-left-1'></i>", "next": "<i class='flaticon-arrow-right'></i>" },
+      "info": "Showing page _PAGE_ of _PAGES_"
     }
-});
+  });
 </script>
 {% endblock %}

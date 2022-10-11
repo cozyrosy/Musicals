@@ -18,17 +18,17 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
 import datetime
-
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 from orders.views import orders
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 import calendar
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
 def adminHomee(request):
     print('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')
-    if 'username' in request.session:
-        return render(request, 'adminHome.html')
+    
     if request.user.is_authenticated:
         orders = OrderProduct.objects.aggregate(Count('id')).get('id__count')
         users = Account.objects.aggregate(Count('id')).get('id__count')
@@ -85,9 +85,10 @@ def adminLoginn(request):
         return redirect('adminHomee')
 
     
-
+decorators = [never_cache,]
 
 class adminUsersList(View):
+    @method_decorator(decorators, name='dispatch')
     def get(self, request):
         user_data = Account.objects.all()
         # paginator= Paginator(user_data,3)
@@ -101,11 +102,14 @@ class adminUsersList(View):
         return render(request, 'adminUsersList.html', data)
 
 
+
 class adminCategories(View):
+    @method_decorator(decorators, name='dispatch')
     def get(self, request):
         categories = Category.objects.all()
         return render(request, 'adminCategories.html', {'category':categories})
 
+@login_required(login_url='adminLogin')
 class deleteCategory(View):
     def post(self, request):
         data = request.POST 
@@ -115,13 +119,17 @@ class deleteCategory(View):
         return redirect(adminCategories)
 
 # PRODUCT MANAGEMENT
-class adminProducts(View):
+
+class adminProducts(LoginRequiredMixin, View):
+    login_url = '/adminLogin/'
+    redirect_field_name = 'redirect_to'
     def get(self, request):
         print('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww')
         products = Product.objects.all()
         return render(request, 'adminProducts.html', {'product':products})
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def addProduct(request):    
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -183,6 +191,7 @@ def addProduct(request):
         return redirect(adminLoginn)
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def editProduct(request, pk):
     if request.user.is_authenticated:
         prod = Product.objects.get(id=pk)
@@ -218,6 +227,7 @@ def editProduct(request, pk):
     return render(request, 'editProduct.html', context)
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def deleteProduct(request,pk):
     if  request.user.is_authenticated:
         prod = Product.objects.get(id=pk)
@@ -232,6 +242,7 @@ def deleteProduct(request,pk):
 # CATEGORY MANAGEMENT
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def editCategory(request, pk):
     if request.user.is_authenticated:
         cat = Category.objects.get(id=pk)
@@ -253,6 +264,7 @@ def editCategory(request, pk):
         return redirect(adminLoginn)
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True) 
+@login_required(login_url='adminLogin')
 def DeleteCategory(request, pk):
         if request.user.is_authenticated:
             cat = Category.objects.get(id=pk)
@@ -265,6 +277,7 @@ def DeleteCategory(request, pk):
             return redirect(adminLoginn)
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def addCategory(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -296,6 +309,7 @@ def addCategory(request):
 
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def blockUser(request, pk):
     user = Account.objects.get(id = pk)
     if user.is_active:
@@ -361,6 +375,7 @@ def adminOrderDetails(request,id):
 # DASHBOARD
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def dashboard(request):
     orders = Order.objects.all()
     # orderproduct = OrderProduct.objects.filter(product__category_name = 1)
@@ -376,6 +391,7 @@ def dashboard(request):
     return render(request, "adminindex.html", cod)
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def salesReport(request):
     salesreport = OrderProduct.objects.all()
     #product_order = Product.objects.all()
@@ -388,6 +404,7 @@ def salesReport(request):
     return render(request, 'salesreport.html', context)
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def date_range(request):
     if request.method == "POST":
         fromdate = request.POST.get('fromdate')
@@ -416,6 +433,7 @@ def date_range(request):
     return render (request,"salesreport.html",context)
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def monthly_report(request,date):
     frmdate = date
     fm = [2022, frmdate, 1]
@@ -433,6 +451,7 @@ def monthly_report(request,date):
         return render(request,'salesreport.html')
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def yearly_report(request,date):
     frmdate = date
     fm = [frmdate, 1, 1]
@@ -449,28 +468,17 @@ def yearly_report(request,date):
         messages.error(request,"No Orders")
         return render(request,'salesreport.html')
 
-class GeneratePdf(APIView):
-    def get(self, request):
-        sales_obj = OrderProduct.objects.all()
-        params = {
-            'today': datetime.date.today(),
-            'sales_obj':sales_obj
-        }
-        file_name, status = save_pdf(params)
-        if not status :
-            return Response({'status': 404})
-            x
-        return Response({'status':200, 'path': f'/media/{file_name}.pdf' })
-
 
 # COUPON MANAGEMENT
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def coupons(request):
     coupons = Coupon.objects.all()
     return render(request, 'adminCoupons.html', {'coupons':coupons})
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def addCoupon(request):
     if request.method=='POST':
         cpns = Coupon()
@@ -496,7 +504,8 @@ def addCoupon(request):
        
     return render(request, 'addCoupon.html')
 
-@cache_control(no_cache =True, must_revalidate =True, no_store =True)    
+@cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')    
 def couponBlock(request,pk):
     coupon_obj = Coupon.objects.get(id=pk)
     if coupon_obj.is_expired:
@@ -509,6 +518,7 @@ def couponBlock(request,pk):
     return redirect('adminCoupons')
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def couponDelete(request, pk):
     coupon_del = Coupon.objects.get(id=pk)
     coupon_del.delete()
@@ -516,6 +526,7 @@ def couponDelete(request, pk):
     return redirect(coupons)
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def couponEdit(request,pk):
     cpn_edit = Coupon.objects.get(id=pk)
     # cpnss = Coupon.objects.al
@@ -547,6 +558,7 @@ def couponEdit(request,pk):
 
 # PRODUCT OFFER MANAGEMENT
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def productOffer(request):
     prod_off = ProductOffer.objects.all()
     context = {
@@ -555,6 +567,7 @@ def productOffer(request):
     return render(request, 'productOffer.html', context)
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def addProductOffer(request):
     prod = Product.objects.all()
     if request.method=='POST':
@@ -590,6 +603,7 @@ def addProductOffer(request):
     return render(request, 'addProductOffer.html',context)
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def editProductOffer(request,pk):
     prod = Product.objects.all()
     prod_off_edit = ProductOffer.objects.get(id=pk)
@@ -627,12 +641,14 @@ def editProductOffer(request,pk):
     return render(request, 'editProductOffer.html',context)
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def deleteProductOffer(request,pk):
     p_offer_del = ProductOffer.objects.get(id=pk)
     p_offer_del.delete()
     messages.success(request,"Product offer deleted successfully")
     return redirect(productOffer)
 
+@login_required(login_url='adminLogin')
 def productOfferBlock(request, pk):
     user = ProductOffer.objects.get(id = pk)
     if user.is_expired:
@@ -647,6 +663,7 @@ def productOfferBlock(request, pk):
 
 # CATEGORY OFFER MANAGEMENT
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def categoryOffer(request):
     cat_off = CategoryOffer.objects.all()
     context = {
@@ -655,6 +672,7 @@ def categoryOffer(request):
     return render(request, 'categoryOffer.html', context)
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def addcategoryOffer(request):
     prod = Category.objects.all()
     if request.method=='POST':
@@ -690,6 +708,7 @@ def addcategoryOffer(request):
     return render(request,'addcategoryOffer.html', context)
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def editCategoryOffer(request,pk):
     prod = Category.objects.all()
     cat_off_edit = CategoryOffer.objects.get(id=pk)
@@ -731,12 +750,14 @@ def editCategoryOffer(request,pk):
     return render(request, 'editCategoryOffer.html',context )
 
 @cache_control(no_cache =True, must_revalidate =True, no_store =True)
+@login_required(login_url='adminLogin')
 def deleteCategoryOffer(request,pk):
     cat_offer_del = CategoryOffer.objects.get(id=pk)
     cat_offer_del.delete()
     messages.success(request,"Category offer deleted successfully")
     return redirect('categoryOffer')
 
+@login_required(login_url='adminLogin')
 def categoryOfferBlock(request, pk):
     user = CategoryOffer.objects.get(id = pk)
     if user.is_expired:
@@ -747,3 +768,4 @@ def categoryOfferBlock(request, pk):
         messages.error(request,"Offer unblocked successfully")
     user.save()
     return redirect(categoryOffer)
+

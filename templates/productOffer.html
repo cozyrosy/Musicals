@@ -5,56 +5,85 @@
 {% block content %}
 <div id="content" class="main-content">
     <div class="container">
-      <div class="page-header">
-        <div class="page-title">
-          <h2>Product Offer</h2>
+      <div class="main-container" id="container">
+        <div id="content" class="main-content">
+          <div class="container">
+            <div class="page-header">
+              <div class="page-title">
+                <h3>View Product Offers</h3>
+                <div class="crumbs">
+                  <ul id="breadcrumbs" class="breadcrumb">
+                    <li><a href="#"><i class="flaticon-home-fill"></i></a></li>
+                    <li><a href="#">eCommerce</a></li>
+                    <li class="active"><a href="#">View Product Offers</a> </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div>
+              <a href="{% url 'addProductOffer' %}">
+                <button type="button" class="btn btn-secondary mb-3 ">Add Offer</button>
+              </a>
+            </div>
+            <div class="row" id="cancel-row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                <div class="statbox widget box box-shadow">
+                  <div class="widget-header">
+                    <div class="row">
+                      <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                        <h4>Customer Information Details </h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="widget-content widget-content-area">
+                    <div class="table-responsive mb-4">
+                      <table class="table table-bordered table-hover" id='zero-config'>
+                        <thead>
+                          <tr>
+                            <th scope="col">No </th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Discount</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for offer in prod_off %}
+                          <tr>
+                            <th scope="row">{{forloop.counter}}</th>
+                            <td>{{ offer.product.product_name }}</td>
+                            <td>{{ offer.discount }}</td>
+                            <td>
+                                {% if offer.is_expired %}
+                                <a href="{% url 'productOfferBlock' offer.id %}" class="btn btn-success">Active</a>
+                                {% else %}
+                                <a href="{% url 'productOfferBlock' offer.id %}" class="btn btn-warning">Expired</a>
+                                {% endif %}
+                              </td>
+
+                              <td class="text-center">
+                                <ul class="table-controls">
+                                    <li><a href="{% url 'editProductOffer' offer.id %}" class="btn btn-primary">Edit</a></li>
+                                    <li><a href="{% url 'deleteProductOffer' offer.id %}" class="btn btn-danger">Delete</a></li>
+                                </ul>
+                            </td>
+
+
+                          </tr>
+                          {% endfor%}
+                  
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-  
       </div>
-      <div>
-        <a href="{% url 'addProductOffer' %}">
-          <button type="button" class="btn btn-secondary mb-3 ">Add Offer</button>
-        </a>
-      </div>
-      <table class="table table-hover" id='zero-config'>
-        <thead>
-          <tr>
-            <th scope="col">No </th>
-            <th scope="col">Product</th>
-            <th scope="col">Discount</th>
-            <th scope="col">Status</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for offer in prod_off %}
-          <tr>
-            <th scope="row">{{forloop.counter}}</th>
-            <td>{{ offer.product.product_name }}</td>
-            <td>{{ offer.discount }}</td>
-            <td>
-                {% if offer.is_expired %}
-                <a href="{% url 'productOfferBlock' offer.id %}" class="btn btn-success">Active</a>
-                {% else %}
-                <a href="{% url 'productOfferBlock' offer.id %}" class="btn btn-warning">Expired</a>
-                {% endif %}
-              </td>
-
-              <td class="text-center">
-                <ul class="table-controls">
-                    <li><a href="{% url 'editProductOffer' offer.id %}" class="btn btn-primary">Edit</a></li>
-                    <li><a href="{% url 'deleteProductOffer' offer.id %}" class="btn btn-danger">Delete</a></li>
-                </ul>
-            </td>
-
-
-          </tr>
-          {% endfor%}
-  
-        </tbody>
-      </table>
     </div>
-  </div>
+</div>
   
   
   

@@ -25,9 +25,11 @@
                     </a>
                     <p class="border-underline"></p>
                 </li>
+                {% if request.user.is_authenticated %}
                 <li class="nav-item theme-text">
-                    <a href="index.html" class="nav-link">{{name}}</a>
+                    <a href="index.html" class="nav-link">{{ user.username }}</a>
                 </li>
+                {% endif %}
             </ul>
 
 

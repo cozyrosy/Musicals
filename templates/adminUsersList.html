@@ -5,37 +5,6 @@
 {% block content %}
 <div id="content" class="main-content">
   <div class="container">
-   
-    
-    <!-- <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        {% if userdata.has_previous %}
-        <li class="page-item">
-          <a class="page-link" href="/adminUsersList/?page=1  " aria-label="Previous">
-            First
-          </a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="/adminUsersList/?page={{ userdata.previous_page_number }}" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        {% endif %}
-
-        {% for n in totalPageList %}
-        <li class="page-item"><a class="page-link" href="/adminUsersList/?page={{n}}">{{n}}</a></li>
-        {% endfor %}
-        {% if userdata.has_next %}
-        <li class="page-item">
-          <a class="page-link" href="/adminUsersList/?page={{ userdata.next_page_number }}" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-        {% endif %}
-      </ul>
-
-    </nav> -->
-
       <!-- </div> -->
   <div class="main-container" id="container">
     <div id="content" class="main-content">
@@ -116,19 +85,6 @@
                       {% endfor %}
                     </tbody>
                   </table>
-                  <!-- <div class="col-xl-4 col-lg-6 col-sm-6 col-12 layout-spacing">
-                    <div class="statbox widget box box-shadow">
-                        <div class="widget-header">                                
-                            <div class="row">
-                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                    <h4>Execute something else for "Cancel".</h4>
-                                </div>
-                            </div>
-                        </div>                            
-                        <div class="widget-content widget-content-area text-center">
-                            <button class="mb-4 mr-2 btn-rounded btn btn-button-16  warning cancel">Addition else for "Cancel".</button>
-                        </div>
-                    </div> -->
                 </div>
               </div>
             </div>
