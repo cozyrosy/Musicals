@@ -25,7 +25,7 @@
                 <div class="login-content">
                     <h2>Login</h2>
                    
-                    <form action="" method="POST"  class="login-form ">
+                    <form action="" method="POST"  class="login-form form-group ">
                        {% csrf_token %}
                        {% for msg in messages %}
                             <p class="alert alert-danger" role="alert">{{ msg }}</p>
