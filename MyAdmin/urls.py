@@ -1,5 +1,6 @@
 from django.urls import path 
 from . import views
+from django.views.generic import View
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
@@ -11,7 +12,7 @@ urlpatterns = [
     path("monthly_report/<int:date>/",views.monthly_report,name="monthly_report"),
     path("yearly_report/<int:date>/",views.yearly_report,name="yearly_report"),
     path("date_range/",views.date_range,name="date_range"),
-    path('pdf/', views.GeneratePdf.as_view(), name="pdf"),
+    
 # ADMIN USER MANAGEMENT 
     path('adminUsersList/', views.adminUsersList.as_view(), name= "adminUsersList"),
     path('blockUser/<str:pk>', views.blockUser, name= "blockUser"),
